@@ -1,0 +1,13 @@
+{
+	"workbench.settings.editor": "ui",
+	"python.analysis.typeCheckingMode": "basic",
+	"cSpell.words": [
+		"abslist",
+		"Kuwo",
+		"mobi",
+		"MUSICRID",
+		"ncols",
+		"SONGNAME",
+		"tqdm"
+	]
+}
