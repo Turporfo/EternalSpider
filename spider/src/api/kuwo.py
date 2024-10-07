@@ -2,7 +2,6 @@ import requests
 import re
 import logging
 from urllib.parse import unquote
-from collections import defaultdict
 from typing import Dict
 from src.log import log_config
 from src.extractor import *
