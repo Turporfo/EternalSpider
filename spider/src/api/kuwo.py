@@ -12,7 +12,7 @@ class Kuwo():
     """kuwo"""
 
     def __init__(self):
-        self.logger = log_config("Kuwo Main", logging.DEBUG)
+        self.logger = log_config("Kuwo Main")
 
     def __search(self, keyword:str, pn:int, rn:int)->dict[str, str]:
 

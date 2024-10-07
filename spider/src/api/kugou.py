@@ -14,7 +14,7 @@ class Kugou():
     """
     
     def __init__(self):
-        self.logger = log_config("Kugou Main", logging.DEBUG)
+        self.logger = log_config("Kugou Main")
 
     def __search(self, keyword:str, page:int, pagesize:int) ->dict[str, tuple[str, str]]:
         keyword = EncodeToUrl(keyword).encode()
