@@ -151,7 +151,7 @@ try:
             raise Exception
         
 except KeyboardInterrupt:
-    main_log.warning("exit\n")
+    main_log.warning("\nexit\n")
 
 finally:
     main_log.info("\033[0;32m All Done!\033[0m")
