@@ -12,9 +12,27 @@ from urllib import parse
 
 logger = log_config("Extractor")
 
+PATH = os.getcwd()
+
+
+def process_string(string:str):
+    """处理字符串"""
+    # 去除非法字符
+    string = re.sub(r'[^\u4e00-\u9fa5a-zA-Z0-9]', '', string)
+    # 转为小写
+    string = string.lower()
+    # 去除多余的空格
+    string = re.sub(r'\s+', '', string)
+
+    if len(string) > 12:
+        string = string[:12]+"..."
+    return string
+
+
+
 def download(url:str, filename:str ='', folder:str ='', format:str ="mp3", cookie:str='') -> None:
     """下载函数"""
-    path:str =os.getcwd().split("\\spider")[0]+'\\download'
+    path:str =os.path.join(PATH.split("\\spider")[0], 'download')
     logger.info("Start downloading……")
     logger.debug(f"download:{url}")
     
@@ -25,12 +43,13 @@ def download(url:str, filename:str ='', folder:str ='', format:str ="mp3", cooki
     total = int(fileText.headers.get('content-length', 0))
 
     if folder == '':
-        folder = f"{path}\\{filename}.{format}"
-
-    logger.debug(f"tqdm: write in {filename}")
+        folder = f"{path}/{filename}.{format}"
+    
+    println_filename = process_string(filename)
+    logger.debug(f"tqdm: write in {println_filename}")
     try:
         with tqdm(
-            desc=f"\nWriting in {filename}.{format}…",
+            desc=f"\nWriting in {println_filename}.{format}…",
             total=total,
             ncols=100,
             unit='iB',
@@ -44,7 +63,7 @@ def download(url:str, filename:str ='', folder:str ='', format:str ="mp3", cooki
                 bar.close()
     except IOError:
         logger.error("ERROR!YOU ARE GETTING A IOERROR!")
-    logger.info("Successfully write in!\nDownload Successfully!")
+    logger.info("Download Successfully!")
 
 
 
@@ -66,7 +85,7 @@ def mv2music(mvName:str) -> None:
     '''mv2music'''
     if re.search(r'[^@%+=:&$#|,./]', mvName, re.ASCII) is None:
         subprocess.call("echo Error!")
-    path = os.getcwd()+'\\spider\\tool\\'
+    path = os.path.join(PATH, 'tool')
     subprocess.call([path+'ffmpeg.exe', '-i', mvName+'.mp4', '-f', 'mp3', '-vn', mvName+'.mp3']) 
     # ffmpeg -i test.mp4 -f mp3 -vn test.mp3
 
