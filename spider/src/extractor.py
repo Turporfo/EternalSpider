@@ -85,7 +85,7 @@ def mv2music(mvName:str) -> None:
     '''mv2music'''
     if re.search(r'[^@%+=:&$#|,./]', mvName, re.ASCII) is None:
         subprocess.call("echo Error!")
-    path = os.path.join(PATH, 'tool')
+    path = os.path.join(PATH, 'spider/src/tool')
     subprocess.call([path+'ffmpeg.exe', '-i', mvName+'.mp4', '-f', 'mp3', '-vn', mvName+'.mp3']) 
     # ffmpeg -i test.mp4 -f mp3 -vn test.mp3
 
