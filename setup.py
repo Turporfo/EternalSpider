@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import subprocess
+import os
 from spider.__init__ import __name__, __version__, __author__
 
 
@@ -29,11 +30,12 @@ def shellSetup():
     subprocess.call("python .\\spider\\main.py")
 
 def common_shell_setup():
+    path = os.getcwd()
     print(f"\033[1;5;7;37;40m{__name__}\033[0mv{__version__}\nBy {__author__}\n\
         {__NAME__}\
         \n注意:下载后的文件保存在根目录下的Download文件夹中\
         \n\033[0;32m-----用`exit()` 退出下载-----\033[0m")
-    subprocess.call("python ./spider/main.py")
+    subprocess.call(f"python {path}/spider/main.py")
 
 
 
