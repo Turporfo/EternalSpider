@@ -20,28 +20,30 @@ def download_kugou(song_name, kg_dicts, is_get_mv):
     hash = kg_dicts[song_name]
     song_hash = hash[0]
     mv_hash = hash[1]
+
+    file_name = quote(song_name)
     # 如果需要下载MV
     if is_get_mv:
         main_log.info("Start downloading MV...")
         mv = kg.get_mv_by_hash(mv_hash=mv_hash, h_quality=True)
-        download(mv, filename=song_name, format="mp4")
+        download(mv, filename=file_name, format="mp4")
     song = kg.get_music_by_hash(song_hash)[-1]
     # 如果歌曲是VIP歌曲,通过mv转换下载MP3
     if song == '':
-        main_log.warning(f"Warning! The `{song_name}` is a paid VIP song!")
+        main_log.warning(f"Warning! The `{file_name}` is a paid VIP song!")
         main_log.info("Try to download music by mv...")
         # 判断是否已经有mv的存在
         if is_get_mv:
-            mv2music(os.path.join(path, song_name))                
-            os.remove(os.path.join(path, song_name+".mp4"))
+            mv2music(mvName=file_name)                
+            os.remove(os.path.join(path, file_name+".mp4"))
         else:
             mv = kg.get_mv_by_hash(mv_hash=mv_hash)
-            download(mv, filename=song_name, format="mp4")
-            mv2music(os.path.join(path, song_name))                
-            os.remove(os.path.join(path, song_name+".mp4"))
+            download(mv, filename=file_name, format="mp4")
+            mv2music(mvName=file_name)                
+            os.remove(os.path.join(path, file_name+".mp4"))
     else:
-        download(song, filename=song_name)
-    main_log.info(f"Downloading `{song_name}` successfully!\n\n")
+        download(song, filename=file_name)
+    main_log.info(f"Downloading `{file_name}` successfully!\n\n")
 
 def download_kuwo(kw_dicts, song_name):
     main_log.info(f"Start downloading `{song_name}`...")
@@ -52,7 +54,8 @@ def download_kuwo(kw_dicts, song_name):
         main_log.warning("该酷我歌曲是VIP歌曲,API失效,请尝试下载酷狗源歌曲!")
         main_log.info("Done!\n\n")
         return
-    download(song, song_name)
+    file_name = quote(song_name)
+    download(song, file_name)
     main_log.info(f"Downloading `{song_name}` successfully!")
 
 def search_then_download():

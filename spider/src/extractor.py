@@ -12,19 +12,23 @@ from urllib import parse
 
 logger = log_config("Extractor")
 
-PATH = os.getcwd()
+PATH = os.path.dirname(os.path.abspath(__file__))
+DOWNLOAD_PATH:str =os.path.join(PATH.split("\\spider")[0], 'download')
 
-
-def process_string(string:str):
+def quote(string:str, hidden:bool=False):
     """处理字符串"""
+    assert string
+
+    string = re.sub(r'[-]', '_', string)
     # 去除非法字符
-    string = re.sub(r'[^\u4e00-\u9fa5a-zA-Z0-9]', '', string)
-    # 转为小写
-    string = string.lower()
+    if re.search(r'[^\w@%+=:,./]', string, re.ASCII) is not None:
+        # string = "'" + string.replace("'", "'\"'\"'") + "'"
+        string = re.sub(r"[^\w@%+=:;',./]", '', string)
+
+    
     # 去除多余的空格
     string = re.sub(r'\s+', '', string)
-
-    if len(string) > 12:
+    if hidden and len(string) > 12:
         string = string[:12]+"..."
     return string
 
@@ -32,7 +36,8 @@ def process_string(string:str):
 
 def download(url:str, filename:str ='', folder:str ='', format:str ="mp3", cookie:str='') -> None:
     """下载函数"""
-    path:str =os.path.join(PATH.split("\\spider")[0], 'download')
+    filename = quote(filename, True)
+    path:str = DOWNLOAD_PATH
     logger.info("Start downloading……")
     logger.debug(f"download:{url}")
     
@@ -45,11 +50,11 @@ def download(url:str, filename:str ='', folder:str ='', format:str ="mp3", cooki
     if folder == '':
         folder = f"{path}/{filename}.{format}"
     
-    println_filename = process_string(filename)
-    logger.debug(f"tqdm: write in {println_filename}")
+    
+    logger.debug(f"tqdm: write in {filename}")
     try:
         with tqdm(
-            desc=f"\nWriting in {println_filename}.{format}…",
+            desc=f"\nWriting in {filename}.{format}…",
             total=total,
             ncols=100,
             unit='iB',
@@ -83,10 +88,13 @@ class EncodeToUrl:
 
 def mv2music(mvName:str) -> None:
     '''mv2music'''
-    if re.search(r'[^@%+=:&$#|,./]', mvName, re.ASCII) is None:
-        subprocess.call("echo Error!")
-    path = os.path.join(PATH, 'spider/src/tool')
-    subprocess.call([path+'ffmpeg.exe', '-i', mvName+'.mp4', '-f', 'mp3', '-vn', mvName+'.mp3']) 
+    mv_path = os.path.join(DOWNLOAD_PATH, mvName)
+    path = os.path.join(PATH.split("\\src")[0], 'tool','ffmpeg.exe')
+    mv = '.'.join([mv_path,"mp4"])
+    music = '.'.join([mv_path,"mp3"])
+    print(path,'-i',mv,'-f','mp3','-vn',music)
+    subprocess.call([path,'-i',mv,'-f','mp3','-vn',music])
+    
     # ffmpeg -i test.mp4 -f mp3 -vn test.mp3
 
 def xmerge(list1, list2)->tuple:
