@@ -65,12 +65,12 @@ def search_then_download():
     is_get_mv = False if (is_get_mv=='') or (is_get_mv=="N") else True
 
     main_log.info(f"Start searching for `{music}`...")
-    try:
-        kg_dicts = kg.search(keyword=music, page=page, pagesize=pagesize)
-        # 酷我默认初始页数是0
-        kw_dicts = kw.search(keyword=music, pn=page-1, rn=pagesize)
-    except:
-        raise ValueError("The page or the pagesize is Out of range limit!")
+    # try:
+    kg_dicts = kg.search(keyword=music, page=page, pagesize=pagesize)
+    # 酷我默认初始页数是0
+    kw_dicts = kw.search(keyword=music, pn=page-1, rn=pagesize)
+    # except:
+    #     raise ValueError("The page or the pagesize is Out of range limit!")
     kg_data = [{f"酷狗": keys} for keys in kg_dicts]
     kw_data = [{f"酷我": keys} for keys in kw_dicts]
     data = xmerge(kw_data, kg_data)
@@ -150,8 +150,7 @@ try:
             main_log.error("Error!错误的输入!")
             raise Exception
         
-except ValueError:
-    main_log.error("Error! 请检查您的输入!")
+
 except KeyboardInterrupt:
     main_log.warning("\nexit\n")
 

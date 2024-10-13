@@ -37,6 +37,9 @@ class Kugou():
             self.logger.debug(f"send GET to the `{resp.url}`")
             result = json.loads(resp.text)["data"]["info"]
             
+            # 防止pagesize超出result
+            if pagesize> len(result):
+                pagesize = len(result)
             for id in range(pagesize):
                 now_data = result[id]
                 song_filename = now_data["filename"]
