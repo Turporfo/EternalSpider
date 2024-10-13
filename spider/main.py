@@ -150,6 +150,8 @@ try:
             main_log.error("Error!错误的输入!")
             raise Exception
         
+except ValueError:
+    main_log.error("Error! 请检查您的输入!")
 except KeyboardInterrupt:
     main_log.warning("\nexit\n")
 
