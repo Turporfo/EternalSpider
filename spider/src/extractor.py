@@ -36,7 +36,7 @@ def quote(string:str, hidden:bool=False):
 
 def download(url:str, filename:str ='', folder:str ='', format:str ="mp3", cookie:str='') -> None:
     """下载函数"""
-    filename = quote(filename, True)
+    
     path:str = DOWNLOAD_PATH
     logger.info("Start downloading……")
     logger.debug(f"download:{url}")

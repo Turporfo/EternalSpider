@@ -102,6 +102,7 @@ def search_then_download():
 
 def download_by_kuwo_url():
     repeated = True
+    multipleIterName = 1
     while repeated:
         song_url = input("请输入要下载的酷我链接:")
         if song_url == "exit()" or song_url == '':
@@ -109,13 +110,15 @@ def download_by_kuwo_url():
         main_log.info(f"Start to download the `{song_url}`")
         song = kw.get_music_by_id(rid=''.join(re.findall(r"\d+", song_url)))
         # 含588957081.mp3的歌曲为错误音频
-        if "588957081" not in song:
-            download(url=str(song))
-            main_log.info("Download Successfully!")
-        else:
+        if "588957081" in song:
             main_log.error("The KuWo API is wrong. Can not find the music!")
             main_log.warning("We will skip the download task of this music!")
-        
+            break
+        file_name = quote(f"酷我音频{multipleIterName}")
+        download(url=str(song), filename=file_name)
+        main_log.info("Download Successfully!")
+
+        multipleIterNames += 1
         repeat = input("是否继续下载(Y/N, default:N):")
         repeated = True if (repeat=="Y") or (repeat=="y") else False
         
@@ -144,7 +147,8 @@ try:
           \n:"))
     match number:
         case 1:
-            search_then_download()
+            while True:
+                search_then_download()
         case 2:
             download_by_kuwo_url()
         case 3:
