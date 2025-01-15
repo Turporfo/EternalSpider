@@ -20,7 +20,7 @@ class CustomFormatter(logging.Formatter):
     BACK_GREEN = colorama.Back.GREEN
     YELLOW = colorama.Fore.YELLOW
     RED = colorama.Fore.RED
-    BOLD_RED = colorama.Fore.RED+colorama.Style.UNDERLINE
+    BOLD_RED = colorama.Fore.RED+colorama.Style.BRIGHT
     RESET_ = colorama.Style.RESET_ALL
     dateFmt  = '%Y-%m-%d %A %H:%M:%S',
     
