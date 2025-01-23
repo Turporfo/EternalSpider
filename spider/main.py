@@ -1,9 +1,10 @@
 import re
 import os
-from src.api.kugou import Kugou
-from src.api.kuwo import Kuwo
+# from src.api.kugou import Kugou
+# from src.api.kuwo import Kuwo
+from src import *
 from src.log import log_config
-from src.extractor import *
+# from src.extractor import *
 from __init__ import __name__, __version__, __author__, __describe__
 
 main_log = log_config("Main")
@@ -11,8 +12,8 @@ main_log = log_config("Main")
 path:str = os.getcwd().split("\\spider")[0]+'\\download'
 
 
-kw = Kuwo()
-kg = Kugou()
+kw = api.Kuwo()
+kg = api.Kugou()
 
 
 def download_kugou(song_name, kg_dicts, is_get_mv):

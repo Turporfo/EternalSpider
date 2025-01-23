@@ -1,7 +1,9 @@
 """Log config"""
 
+
 import logging
 import colorama
+
 
 def ft(color, reset):
     return f'{color}%(asctime)s  %(filename)s **%(name)s**: [%(levelname)s] %(message)s{reset}'
